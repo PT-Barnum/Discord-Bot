@@ -37,10 +37,6 @@ async def sum(ctx, numOne: int, numTwo: int):
     await ctx.channel.send(f"{str(numOne + numTwo)}")
 
 @bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
-
-@bot.command()
 async def rollcall(ctx):
     response = ""
     for member in ctx.guild.members:
@@ -81,15 +77,15 @@ async def my_roles(ctx):
 async def i_am(ctx):
     await ctx.channel.send(f"{ctx.author.name}")
 
-@bot.command()
-async def youtube(ctx, *, search):
-    # https://www.youtube.com/results?search_query=...
-    query_string = parse.urlencode({'search_query': search})
-    html_content = request.urlopen('http://www.youtube.com/results?' + query_string)
-    # retrieves the ending tag for the https address which results in a video pulling up
-    search_results = re.findall(r"watch\?v=(\S{11})", html_content.read().decode())
-    # first result will be the closest match to the search query
-    await ctx.send('https://www.youtube.com/watch?v=' + search_results[0])
+# @bot.command()
+# async def youtube(ctx, *, search):
+#     # https://www.youtube.com/results?search_query=...
+#     query_string = parse.urlencode({'search_query': search})
+#     html_content = request.urlopen('http://www.youtube.com/results?' + query_string)
+#     # retrieves the ending tag for the https address which results in a video pulling up
+#     search_results = re.findall(r"watch\?v=(\S{11})", html_content.read().decode())
+#     # first result will be the closest match to the search query
+#     await ctx.send('https://www.youtube.com/watch?v=' + search_results[0])
 
 @bot.command()
 async def info(ctx):
@@ -106,8 +102,13 @@ async def info(ctx):
     embed.add_field(name="Tuba Leaders", value=f"{leaders}")
 
     # embed.set_thumbnail(url=f"{ctx.guild.icon}")
-    embed.set_thumbnail(url="https://pluralsight.imgix.net/paths/python-7be70baaac.png")
+    # embed.set_thumbnail(url="https://pluralsight.imgix.net/paths/python-7be70baaac.png")
+    embed.set_thumbnail(url="https://pbs.twimg.com/profile_images/813785169794449408/RLmslYqm.jpg")
 
     await ctx.channel.send(embed=embed)
+
+for folder in os.listdir("modules"):
+    if os.path.exists(os.path.join("modules", folder, "cog.py")):
+        bot.load_extension(f"modules.{folder}.cog")
 
 bot.run(TOKEN)
