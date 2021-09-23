@@ -20,11 +20,12 @@ intents.presences = True
 
 bot = commands.Bot(command_prefix = '!', intents=intents)
 
-
+# Statement printed to the terminal, indicating bot has successfully connected to the server
 @bot.event
 async def on_ready():
     print("Bot has connected!\n")
 
+# Statement printed to the terminal, indicating a person's status has changed from offline to online
 @bot.event
 async def on_member_update(before, after):
     if before.status is discord.Status.offline and after.status is discord.Status.online:
@@ -32,10 +33,12 @@ async def on_member_update(before, after):
         channel = bot.get_channel(851132472191614979)  # notification channel
         await channel.send(f'{after.name} is now {after.status}')
 
+# Simple addition command
 @bot.command()
 async def sum(ctx, numOne: int, numTwo: int):
     await ctx.channel.send(f"{str(numOne + numTwo)}")
 
+# Lists in the given channel the members present in the server (online)
 @bot.command()
 async def rollcall(ctx):
     response = ""
@@ -44,6 +47,7 @@ async def rollcall(ctx):
         response += (f"{member.name} is {member.status}\n")
     await ctx.channel.send(f"{response}")
 
+# Simple command repeating what a user tells the bot to say
 @bot.command()
 async def say(ctx, *, text=''):
     if text == '':
@@ -51,11 +55,13 @@ async def say(ctx, *, text=''):
     else:
         await ctx.channel.send(f"{text}")
 
+# An inside joke :)
 @bot.command()
 async def debate(ctx):
     response = "Every food can be categorized as either a salad, soup, or sandwich"
     await ctx.channel.send(response)
 
+# This bot was adapted for the Pride of Minnesota Tubas. This command indicates who the leaders are
 @bot.command()
 async def leaders(ctx):
     leaders = ""
@@ -73,6 +79,7 @@ async def my_roles(ctx):
         response += (f"{role}\n")
     await ctx.channel.send(f"{response}")
 
+# Repeats what the user's name is
 @bot.command()
 async def i_am(ctx):
     await ctx.channel.send(f"{ctx.author.name}")
